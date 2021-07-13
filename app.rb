@@ -4,46 +4,15 @@ require 'bundler/setup'
 require 'pony'
 require 'sinatra'
 require 'sinatra/reloader'
+require 'sinatra/activerecord'
 
 
 
-def get_db
-	db = SQLite3::Database.new './public/barbershop.db'
-	db.results_as_hash = true
-	return db
-end
+
 
 configure do
 	enable :sessions
-	db = get_db
-	db.execute 'CREATE TABLE IF NOT EXISTS "Users"
-	(
-		"Id" INTEGER PRIMARY KEY AUTOINCREMENT,
-		"Name" TEXT,
-		"Phone" TEXT,
-		"DateStamp" TEXT,
-		"Barber" TEXT,
-		"Color" TEXT
-	)'
-		
 	
-	db.execute 'CREATE TABLE IF NOT EXISTS "Barbers"
-	(
-		"Id" INTEGER PRIMARY KEY AUTOINCREMENT,
-		"Name" TEXT UNIQUE
-	)'
-	
-#	db.close
-	barbers = ["Walter White", 'Jessie Pinkman', 'Gus Fring', 'Иван Петров', 'Fredie', 'Анна Васильева']
-
-	barbers.each do |i|
-		db.execute "INSERT INTO Barbers(Name) 
-				SELECT  '#{i}' 
-				WHERE NOT EXISTS(SELECT Name FROM Barbers WHERE Name = '#{i}'
-				)"
-	end
-	
-
 end
 
 helpers do
@@ -63,14 +32,12 @@ before '/secure/*' do
 	end
  end
 
+ 
  get '/login/form' do
 	erb :login_form
 end
 
 get '/secure/place' do
-	db = get_db
-	@result = db.execute 'select * from Users order by id desc' 
-	db.close
 	erb :'/secure/place'
 end
 
@@ -100,15 +67,13 @@ get '/about' do
 end
 
 get '/visit' do
-	db  = get_db
-	@select_from_barbers = db.execute 'select Name from  Barbers'
+
 	erb :visit
 end
 
 post '/visit' do
-	db  = get_db
-	@select_from_barbers = db.execute 'select Name from  Barbers'
-		@client = params[:username]
+
+	@client = params[:username]
 	@phone = params[:phone]
 	@datetime = params[:datetime]
 	@barber = params[:barber]
@@ -122,17 +87,6 @@ post '/visit' do
 	@error = hash.select {|key,_| params[key]==""}.values.join(", ")
 	
 	if @error == ''
-		db = get_db
-		db.execute 'insert into
-		Users
-		(
-			Name, 
-			Phone,
-			DateStamp,
-			Barber,
-			Color	
-		)
-		values (?,?,?,?,?)', [@client, @phone, @datetime, @barber, @color] 
 				
 		erb "Уважаемый #{@client}, #{@barber} будет ждать Вас #{@datetime}"
 
