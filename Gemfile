@@ -3,3 +3,9 @@ gem "sqlite3"
 gem "pony"
 gem "sinatra"
 gem "sinatra-reloader"
+gem "sinatra-activerecord"
+gem "sinatra-contrib"
+
+gorup :development do 
+        gem "tux"
+end
