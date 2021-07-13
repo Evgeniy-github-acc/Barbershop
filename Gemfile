@@ -6,6 +6,6 @@ gem "sinatra-reloader"
 gem "sinatra-activerecord"
 gem "sinatra-contrib"
 
-gorup :development do 
+group :development do 
         gem "tux"
 end
