@@ -68,16 +68,16 @@ get '/' do
 end
 
 get '/about' do
+	@barbers = Barbers.all
 	erb :about
 end
 
 get '/visit' do
-
 	erb :visit
 end
 
 post '/visit' do
-
+	@barbers = Barbers.all
 	@client = params[:username]
 	@phone = params[:phone]
 	@datetime = params[:datetime]

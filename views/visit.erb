@@ -24,8 +24,8 @@
 
     <select name="barber" class="form-control">
     
-    <% @select_from_barbers.each do |i| %> 
-      <option <%= @barber == i['Name'] ? 'selected' : ''%>> <%= i['Name']%> </option>
+    <% @barbers.each do |i| %> 
+      <option <%= @barber == i.name ? 'selected' : ''%>> <%= i.name %> </option>
       <% end %>
      </select>
       </div>
