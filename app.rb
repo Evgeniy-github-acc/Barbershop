@@ -8,12 +8,15 @@ require 'sinatra/activerecord'
 
 set :database, "sqlite3:barbershop.db"
 
-class Client < ActiveRecord::Base
+class Clients < ActiveRecord::Base
 end
 
 class Barbers < ActiveRecord::Base
 end
 
+before do
+	@barbers = Barbers.all
+end
 
 configure do
 	enable :sessions
@@ -68,7 +71,6 @@ get '/' do
 end
 
 get '/about' do
-	@barbers = Barbers.all
 	erb :about
 end
 
@@ -76,8 +78,7 @@ get '/visit' do
 	erb :visit
 end
 
-post '/visit' do
-	@barbers = Barbers.all
+post '/visit' do 
 	@client = params[:username]
 	@phone = params[:phone]
 	@datetime = params[:datetime]
@@ -92,7 +93,16 @@ post '/visit' do
 	@error = hash.select {|key,_| params[key]==""}.values.join(", ")
 	
 	if @error == ''
-				
+		
+		new = Clients.create do |add|
+			add.name = @client 
+			add.phone = @phone 
+			add.datestamp = @datetime
+			add.barber = @barber
+			add.color = @color 
+		end 
+		
+		
 		erb "Уважаемый #{@client}, #{@barber} будет ждать Вас #{@datetime}"
 
 	else
