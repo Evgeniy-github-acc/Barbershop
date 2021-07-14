@@ -27,6 +27,7 @@
 			    </button>
 			    <a class="navbar-brand" href="/">ЦирюльникЪ</a>
 			  </div>
+			  
 			  <div class="navbar-collapse collapse">
 			    <ul class="nav navbar-nav">
 			      <li><a href="/about">О нас</a></li>
@@ -47,20 +48,20 @@
 									<div class="dropdown-divider"></div>	
 								</div>
 						</li>
-			    
-				
-				</ul>
-			  </div><!--/.nav-collapse -->
+			  	</ul>
+			
+		  </div><!--/.nav-collapse -->
 			</nav>
-
+			
 			<div>
 			      <%if (@error &&  @error != '') then %>
 			          <div class="alert alert-danger"><%=@error%></div>
 			      <% end %>
 			      <%= yield %>
 			</div>
-
+		<img src= "/pics/barbershop3.jpg" class="img-fluid" alt="Responsive image" width = 100%>	 
 	</div>
+
 				
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="/vendor/jquery-1.9.1.min.js"></script>
