@@ -5,17 +5,17 @@
 
   <div class="form-group">
     <label>Ваше имя</label>
-    <input name="client[name]" type="text" class="form-control" placeholder="Ваше имя">
+    <input name="client[name]" type="text" class="form-control" placeholder="Ваше имя" value = <%= @visit.name%>>
   </div>
 
   <div class="form-group">
     <label>Ваш телефон</label>
-    <input name="client[phone]" type="text" class="form-control" placeholder="Ваш телефон">
+    <input name="client[phone]" type="text" class="form-control" placeholder="Ваш телефон" value = <%= @visit.phone%>>
   </div>
 
   <div class="form-group">
     <label>Когда вас ждать?</label>
-    <input name="client[datestamp]" type="text" class="form-control" placeholder="Введите дату и время">
+    <input name="client[datestamp]" type="text" class="form-control" placeholder="Введите дату и время" value = <%= @visit.datestamp%> >
   </div>
 
   <div class="form-group">

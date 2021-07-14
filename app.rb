@@ -9,6 +9,11 @@ require 'sinatra/activerecord'
 set :database, "sqlite3:barbershop.db"
 
 class Client < ActiveRecord::Base
+	validates :name, presence: true
+	validates :phone, presence: true
+	validates :datestamp, presence: true 
+	validates :barber, presence: true
+
 end
 
 class Barbers < ActiveRecord::Base
@@ -78,28 +83,20 @@ get '/about' do
 end
 
 get '/visit' do
+	@visit = Client.new
 	erb :visit
 end
 
 post '/visit' do 
 	
-	visit = Client.new params[:client]
-	visit.save
+	@visit = Client.new params[:client]
+	@visit.save
 	
-
-	hash = {	:username => 'Введите имя',
-				:phone => 'Введите номер телефона',
-				:datetime => 'Введите дату и время',
-	}
-
-	@error = hash.select {|key,_| params[key]==""}.values.join(", ")
-	
-	if @error == ''
-		
-		erb "Уважаемый #{visit.name}, #{visit.barber} будет ждать Вас #{visit.datestamp}"
-
+	if @visit.save
+		erb "Уважаемый #{@visit.name}, #{@visit.barber} будет ждать Вас #{@visit.datestamp}"
 	else
-		return erb :visit
+		@error = @visit.errors.full_messages.first
+		erb :visit
 	end
 end	
 
@@ -112,7 +109,8 @@ get '/contacts' do
 end
 
 post '/contacts' do
-	@client = params[:username]
+
+		@client = params[:username]
 	@email = params[:email]
 	@mail = params[:mail]
 	
