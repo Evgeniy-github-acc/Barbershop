@@ -5,24 +5,24 @@
 
   <div class="form-group">
     <label>Ваше имя</label>
-    <input name="username" type="text" class="form-control" placeholder="Ваше имя">
+    <input name="client[name]" type="text" class="form-control" placeholder="Ваше имя">
   </div>
 
   <div class="form-group">
     <label>Ваш телефон</label>
-    <input name="phone" type="text" class="form-control" placeholder="Ваш телефон">
+    <input name="client[phone]" type="text" class="form-control" placeholder="Ваш телефон">
   </div>
 
   <div class="form-group">
     <label>Когда вас ждать?</label>
-    <input name="datetime" type="text" class="form-control" placeholder="Введите дату и время">
+    <input name="client[datestamp]" type="text" class="form-control" placeholder="Введите дату и время">
   </div>
 
   <div class="form-group">
     <label>Кто Ваш мастер</label>
     
 
-    <select name="barber" class="form-control">
+    <select name="client[barber]" class="form-control">
     
     <% @barbers.each do |i| %> 
       <option <%= @barber == i.name ? 'selected' : ''%>> <%= i.name %> </option>
