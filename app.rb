@@ -19,7 +19,7 @@ end
 class Barbers < ActiveRecord::Base
 end
 
-class Contacts < ActiveRecord::Base
+class Contact < ActiveRecord::Base
 end
 
 before do
@@ -105,16 +105,16 @@ end
 	end
 
 get '/contacts' do
+	@contact = Contact.new
 	erb :contacts
 end
 
 post '/contacts' do
-
-		@client = params[:username]
-	@email = params[:email]
-	@mail = params[:mail]
 	
-        Pony.mail(:to => '3374555@mail.ru', :from => "#{@email}", :subject => "Сообщение от #{@client}", :body => "#{@mail}",   :via_options => {
+	@contact = Contact.new params[:contact]
+	@contact.save
+
+	  Pony.mail(:to => '3374555@mail.ru', :from => "#{@contact.email}", :subject => "Сообщение от #{@contact.name}", :body => "#{@contact.message}",   :via_options => {
 			:address              => 'smtp.gmail.com',
 			:port                 => '587',
 			:enable_starttls_auto => true,
@@ -124,11 +124,6 @@ post '/contacts' do
 			:domain               => "localhost.localdomain" # the HELO domain provided by the client to the server
 		  })
 	
-	new = Contacts.create do |add|
-		add.name = @client
-		add.email = @email
-		add.message = @mail
-	end
 
 	@title = "Успешно!"
 	@message = "Ваше сообщение отправлено и будет обработано в ближайшее время!"
