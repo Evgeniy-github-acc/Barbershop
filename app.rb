@@ -14,6 +14,9 @@ end
 class Barbers < ActiveRecord::Base
 end
 
+class Contacts < ActiveRecord::Base
+end
+
 before do
 	@barbers = Barbers.all
 end
@@ -132,6 +135,13 @@ post '/contacts' do
 			:authentication       => :plain, # :plain, :login, :cram_md5, no auth by default
 			:domain               => "localhost.localdomain" # the HELO domain provided by the client to the server
 		  })
+	
+	new = Contacts.create do |add|
+		add.name = @client
+		add.email = @email
+		add.message = @mail
+	end
+
 	@title = "Успешно!"
 	@message = "Ваше сообщение отправлено и будет обработано в ближайшее время!"
 	erb :message	  
